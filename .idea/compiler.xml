@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ttest_questt" />
+        <module name="ttest_questt_orig" />
       </profile>
     </annotationProcessing>
   </component>
