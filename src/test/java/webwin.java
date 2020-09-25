@@ -47,18 +47,26 @@ public class webwin {
        // driver.manage().timeouts().pageLoadTimeout(10000, TimeUnit.MILLISECONDS);
 
         
+        //tup_button_by_xpath(driver, "//*[@id='dropdown-control-1601038829973']");
+        //Thread.sleep(5000);
 
 
-        //fall_lists(driver, "_3eEaGUC_gl");
-        //Thread.sleep(4000);
+
+       // fall_lists(driver, "vLDMfabyVq");
+        tup_button_by_class(driver, "vLDMfabyVq");
+        Thread.sleep(4000);
+        set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
+       // tup_button_by_class(driver, "_1YeOF5Jcfi _35PaznpQ-g");
     }
 
 
     public static void fall_lists(WebDriver driver, String path)
     {
         WebElement selectElement = driver.findElement(By.className(path));
-        Select select = new Select(selectElement);
-        select.selectByVisibleText("Показывать по 12");
+       new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.id(path)));
+        driver.findElement(By.id(path)).click();
+        //Select select = new Select(selectElement);
+        //select.selectByIndex(1);
     }
 
     public static void set_checkbox_elem(WebDriver driver, String path)  {
