@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class webwin {
     public static void main(String[] args) throws InterruptedException {
+        int xpathCount = 0;
         System.setProperty("webdriver.gecko.driver","C:\\webdrivers\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
 
@@ -46,17 +47,23 @@ public class webwin {
         Thread.sleep(5000);
        // driver.manage().timeouts().pageLoadTimeout(10000, TimeUnit.MILLISECONDS);
 
-        
-        //tup_button_by_xpath(driver, "//*[@id='dropdown-control-1601038829973']");
-        //Thread.sleep(5000);
-
-
-
-       // fall_lists(driver, "vLDMfabyVq");
         tup_button_by_class(driver, "vLDMfabyVq");
         Thread.sleep(4000);
         set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
-       // tup_button_by_class(driver, "_1YeOF5Jcfi _35PaznpQ-g");
+        Thread.sleep(5000);
+        xpathCount = driver.findElements(By.cssSelector("article._1_IxNTwqll")).size();
+        if (xpathCount != 12) // проверка на 12 элементов на странице
+        {
+            tup_button_by_class(driver, "vLDMfabyVq");
+            Thread.sleep(4000);
+            set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
+            Thread.sleep(5000);
+            /*try {
+
+            } catch () */ // нужно будет обернуть
+            set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
+            Thread.sleep(5000);
+        }
     }
 
 
