@@ -1,13 +1,16 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
 
 
 public class webwin {
@@ -28,8 +31,49 @@ public class webwin {
             System.out.println("OK");
         if ((tup_button_by_text(driver, "Ноутбуки")) == 0)
             System.out.println("OK");
+        Thread.sleep(5000);
+     // driver.manage().timeouts().pageLoadTimeout(30000, TimeUnit.MILLISECONDS);
+
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        enter_text_to_elem_by_id(driver, "glpricefrom", "10000");
+        Thread.sleep(5000);
+        enter_text_to_elem_by_id(driver, "glpriceto", "30000");
+        Thread.sleep(5000);
+
+        set_checkbox_elem(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(6) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        Thread.sleep(5000);
+        set_checkbox_elem(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(7) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        Thread.sleep(5000);
+       // driver.manage().timeouts().pageLoadTimeout(10000, TimeUnit.MILLISECONDS);
+
+        
+
+
+        //fall_lists(driver, "_3eEaGUC_gl");
+        //Thread.sleep(4000);
     }
 
+
+    public static void fall_lists(WebDriver driver, String path)
+    {
+        WebElement selectElement = driver.findElement(By.className(path));
+        Select select = new Select(selectElement);
+        select.selectByVisibleText("Показывать по 12");
+    }
+
+    public static void set_checkbox_elem(WebDriver driver, String path)  {
+        WebElement checkbox = driver.findElement(By.cssSelector(path));
+       checkbox.click();
+
+    }
+
+
+    public static void enter_text_to_elem_by_id(WebDriver driver, String id, String text)
+    {
+        WebElement searchField = driver.findElement(By.id(id));
+
+        searchField.sendKeys(text);
+    }
     public static void close_tab(WebDriver driver)
     {
         Set<String> handlesSet = driver.getWindowHandles();
@@ -44,6 +88,7 @@ public class webwin {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         return (0);
     }
+
     public static int tup_button_by_text(WebDriver driver, String l_txt)
     {
         WebElement searchField = driver.findElement(By.linkText(l_txt));
