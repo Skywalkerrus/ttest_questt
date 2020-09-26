@@ -15,73 +15,81 @@ import java.util.concurrent.TimeUnit;
 
 public class webwin {
     public static void main(String[] args) throws InterruptedException {
-        int xpathCount = 0;
+
         System.setProperty("webdriver.gecko.driver","C:\\webdrivers\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
+        String first_result;
+        String second_result;
 
-        if ((load(driver, "https://yandex.ru/")) == 0)
+        if ((load(driver, "https://yandex.ru/")) == 0) //грузим страницу яндекса
             System.out.println("Load OK");
-        if ((tup_button_by_text(driver, "Маркет")) == 0)
+        if ((tup_button_by_text(driver, "Маркет")) == 0) // переход на маркет
             System.out.println("Element find - OK");
-        close_tab(driver);
+        close_tab(driver); // закрытие лишней ввкладки
 
         Thread.sleep(10000);
-        driver.navigate().refresh();
+        driver.navigate().refresh(); // обновляем стр для пропуска вопроса о местоположении
 
-        if ((tup_button_by_xpath(driver, ".//*[text()='Компьютеры']/..")) == 0)
+        if ((tup_button_by_xpath(driver, ".//*[text()='Компьютеры']/..")) == 0) // переход на раздел компьютеров
             System.out.println("OK");
-        if ((tup_button_by_text(driver, "Ноутбуки")) == 0)
+        if ((tup_button_by_text(driver, "Ноутбуки")) == 0) // переход на раздел ноутбуков
             System.out.println("OK");
         Thread.sleep(5000);
-     // driver.manage().timeouts().pageLoadTimeout(30000, TimeUnit.MILLISECONDS);
 
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        enter_text_to_elem_by_id(driver, "glpricefrom", "10000");
+        enter_text_to_elem_by_id(driver, "glpricefrom", "10000"); // ищем поле для фильтра цены, указываем интересующую нас цену
         Thread.sleep(5000);
-        enter_text_to_elem_by_id(driver, "glpriceto", "30000");
+        enter_text_to_elem_by_id(driver, "glpriceto", "30000"); // ищем поле для фильтра цены, указываем интересующую нас цену
         Thread.sleep(5000);
 
-        set_checkbox_elem(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(6) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        tup_by_css(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(6) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        // отмечаем интересующих нас производителей
         Thread.sleep(5000);
-        set_checkbox_elem(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(7) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        tup_by_css(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(7) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
         Thread.sleep(5000);
-       // driver.manage().timeouts().pageLoadTimeout(10000, TimeUnit.MILLISECONDS);
+
 
         tup_button_by_class(driver, "vLDMfabyVq");
         Thread.sleep(4000);
-        set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
+        tup_by_css(driver, "button._35PaznpQ-g:nth-child(1)");
+        // ставим отображение максимум 12 элементов на странице
         Thread.sleep(5000);
-        xpathCount = driver.findElements(By.cssSelector("article._1_IxNTwqll")).size();
-        if (xpathCount != 12) // проверка на 12 элементов на странице
+
+        if ((driver.findElements(By.cssSelector("article._1_IxNTwqll")).size()) != 12) // проверка на 12 элементов на странице
         {
+            //проверяем, действительно ли отобразилось 12 элементов. Если нет, то пробуем опять выставить отображение в 12 элементов.
             tup_button_by_class(driver, "vLDMfabyVq");
             Thread.sleep(4000);
-            set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
+            tup_by_css(driver, "button._35PaznpQ-g:nth-child(1)");
             Thread.sleep(5000);
             /*try {
 
             } catch () */ // нужно будет обернуть
-            set_checkbox_elem(driver, "button._35PaznpQ-g:nth-child(1)");
-            Thread.sleep(5000);
         }
+        first_result = get_value(driver, "article._1_IxNTwqll:nth-child(1) > div:nth-child(4) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
+        // сохраняем в переменную значение первого значения в списке
+        enter_text_to_elem_by_id(driver, "header-search", first_result);
+        // находим на странице строку поиска и вставляем в нее сохраненное ранее значение
+        Thread.sleep(500);
+        tup_by_css(driver, "._1XiEJDPVpk"); // жмем кнопку поиска
+        Thread.sleep(5000);
+        second_result = get_value(driver, "article._1_IxNTwqll:nth-child(1) > div:nth-child(4) > div:nth-child(1) > h3:nth-child(1) > a:nth-child(1)");
+        // сохраняем первое значение в списке
+        if (second_result.equals(first_result)) // сравниваем старое значение с новым
+            System.out.println("OK: " + first_result + " = " + second_result);
+        else
+            System.out.println("KO");
     }
 
-
-    public static void fall_lists(WebDriver driver, String path)
+    public static String get_value(WebDriver driver, String path)
     {
-        WebElement selectElement = driver.findElement(By.className(path));
-       new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.id(path)));
-        driver.findElement(By.id(path)).click();
-        //Select select = new Select(selectElement);
-        //select.selectByIndex(1);
+        WebElement TxtBoxContent = driver.findElement(By.cssSelector(path));
+        return (TxtBoxContent.getAttribute("title"));
     }
 
-    public static void set_checkbox_elem(WebDriver driver, String path)  {
+    public static void tup_by_css(WebDriver driver, String path)  {
         WebElement checkbox = driver.findElement(By.cssSelector(path));
-       checkbox.click();
-
+        checkbox.click();
     }
-
 
     public static void enter_text_to_elem_by_id(WebDriver driver, String id, String text)
     {
