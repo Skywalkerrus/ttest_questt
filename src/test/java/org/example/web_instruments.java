@@ -1,4 +1,8 @@
+package org.example;
+
 import org.openqa.selenium.*;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,9 +15,23 @@ public class web_instruments {
 
     public static String get_path_to_driver()
     {
+        String path;
+        File driver;
         Scanner sc = new Scanner(System.in);
+
         System.out.println("Пожалуйста, введите путь до вашего веб-драйвера.\nПример: C:\\webdrivers\\geckodriver.exe");
-        return (sc.nextLine());
+        while (true) {
+            path = sc.nextLine();
+            if (path.equals("exit"))
+                System.exit(0);
+            driver = new File(path);
+            if (driver.exists())
+                break;
+            else
+                System.out.println("Такого файла не существует, пожалуйста, введите путь правильно. " +
+                        "\nЕсли вы хотите выйти из программы: введите 'exit'");
+        }
+        return (path);
     }
 
     public static String get_value(WebDriver driver, String path)
@@ -43,34 +61,30 @@ public class web_instruments {
         driver.switchTo().window(handlesList.get(1));
     }
 
-    public static int load(WebDriver driver, String url)
+    public static void load(WebDriver driver, String url)
     {
         driver.get(url);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        return (0);
     }
 
-    public static int tup_button_by_text(WebDriver driver, String l_txt)
+    public static void tup_button_by_text(WebDriver driver, String l_txt)
     {
         WebElement searchField = driver.findElement(By.linkText(l_txt));
         searchField.click();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        return (0);
     }
 
-    public static int tup_button_by_xpath(WebDriver driver, String l_txt)
+    public static void tup_button_by_xpath(WebDriver driver, String l_txt)
     {
         WebElement searchField = driver.findElement(By.xpath(l_txt));
         searchField.click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        return (0);
     }
 
-    public static int tup_button_by_class(WebDriver driver, String cl_name)
+    public static void tup_button_by_class(WebDriver driver, String cl_name)
     {
         WebElement searchField = driver.findElement(By.className(cl_name));
         searchField.click();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        return (0);
     }
 }
