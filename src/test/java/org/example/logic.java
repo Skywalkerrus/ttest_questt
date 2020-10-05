@@ -72,11 +72,11 @@ public class logic extends web_instruments {
     }
 
     public static void set_checkbox(WebDriver driver) throws InterruptedException {
-        web_instruments.tup_by_css(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(6) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        web_instruments.tup_by_css(driver, "div._3_phr-spJh:nth-child(2) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(6) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1)");
         // отмечаем интересующих нас производителей
         Thread.sleep(5000);
 
-        web_instruments.tup_by_css(driver, "div._3_phr-spJh:nth-child(3) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(7) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1) > div:nth-child(2) > span:nth-child(1)");
+        web_instruments.tup_by_css(driver, "div._3_phr-spJh:nth-child(2) > div:nth-child(1) > div:nth-child(1) > fieldset:nth-child(1) > ul:nth-child(2) > li:nth-child(7) > div:nth-child(1) > a:nth-child(1) > label:nth-child(1)");
         Thread.sleep(5000);
     }
 
